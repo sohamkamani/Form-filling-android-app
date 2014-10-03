@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="60"
                 android:gravity="left"
-                android:text="Name" />
+                android:text="Ingredient" />
 
             <TextView
                 android:id="@+id/textView2"

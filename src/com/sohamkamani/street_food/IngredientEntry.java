@@ -9,18 +9,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class MenuEntry extends Activity implements OnClickListener {
+public class IngredientEntry extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_menu_entry);
+		setContentView(R.layout.activity_ingredient_entry);
 		Button bSubmit = (Button) findViewById(R.id.bMenuSubmit);
 		bSubmit.setOnClickListener(this);
 		Button bAddMore = (Button) findViewById(R.id.bAddItem);

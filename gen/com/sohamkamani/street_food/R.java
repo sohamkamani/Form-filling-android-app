@@ -25,13 +25,14 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080036;
+        public static final int action_settings=0x7f080038;
         public static final int bAddItem=0x7f08000d;
-        public static final int bIngredients=0x7f080034;
-        public static final int bMenu=0x7f080033;
+        public static final int bIngredients=0x7f080036;
+        public static final int bLocation=0x7f080034;
+        public static final int bMenu=0x7f080035;
         public static final int bMenuSubmit=0x7f08000e;
         public static final int bPic=0x7f080032;
-        public static final int bSubmit=0x7f080035;
+        public static final int bSubmit=0x7f080037;
         public static final int cuiChaat=0x7f080020;
         public static final int cuiChin=0x7f08001d;
         public static final int cuiLoc=0x7f080021;
@@ -39,6 +40,7 @@ public final class R {
         public static final int cuiOther=0x7f080022;
         public static final int cuiSou=0x7f08001f;
         public static final int homeDelivery=0x7f080029;
+        public static final int imageView1=0x7f080033;
         public static final int menuEditTextLayout=0x7f080002;
         public static final int name1=0x7f080003;
         public static final int name3=0x7f080007;

@@ -237,6 +237,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Take Picture" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="301dp"
+            android:layout_height="401dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_launcher" />
+
+        <Button
+            android:id="@+id/bLocation"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Get Current Location" />
         
         <Button
             android:id="@+id/bMenu"

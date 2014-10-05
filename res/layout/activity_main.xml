@@ -8,7 +8,6 @@
         android:layout_gravity="center_horizontal"
         android:orientation="vertical" >
 
-
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
@@ -26,7 +25,8 @@
         <EditText
             android:id="@+id/tbName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
 
         <TextView
             android:id="@+id/tbPhoneeee"
@@ -70,30 +70,17 @@
             android:layout_height="wrap_content"
             android:text="Type of Food" />
 
-        <RadioGroup
-            android:id="@+id/radioGroup1"
+        <CheckBox
+            android:id="@+id/checkBox1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:text="Veg" />
 
-            <RadioButton
-                android:id="@+id/typV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Veg" />
-
-            <RadioButton
-                android:id="@+id/typNV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Non veg" />
-
-            <RadioButton
-                android:id="@+id/typBoth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Both" />
-        </RadioGroup>
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non Veg" />
 
         <TextView
             android:id="@+id/textView6"
@@ -142,8 +129,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Other:" />
-            
         </RadioGroup>
+
         <EditText
             android:id="@+id/tbOther"
             android:layout_width="match_parent"
@@ -177,12 +164,30 @@
             android:layout_height="wrap_content"
             android:text="Home Delivery" />
 
-        <Switch
+        <ToggleButton
             android:id="@+id/homeDelivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textOff="No"
-            android:textOn="Yes" />
+            android:textOn="Yes"
+            android:textOff="No" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/minDelAmttxt"
+                android:text="Minimum Delivery Amt:"
+                android:textColor="#AAAAAA" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:id="@+id/minDelAmt"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:editable="false" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView10"
@@ -190,10 +195,26 @@
             android:layout_height="wrap_content"
             android:text="Opening Time" />
 
-        <TimePicker
-            android:id="@+id/timeOpen"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" >
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeOpenHr" />
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeOpenMin" />
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeOpenampm" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView13"
@@ -201,10 +222,27 @@
             android:layout_height="wrap_content"
             android:text="Closing Time" />
 
-        <TimePicker
-            android:id="@+id/timeClose"
+           
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" >
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeCloseHr" />
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeCloseMin" />
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeCloseampm" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView11"
@@ -216,7 +254,8 @@
             android:id="@+id/tbPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10" />
+            android:ems="10"
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/textView12"
@@ -238,12 +277,46 @@
             android:layout_gravity="center_horizontal"
             android:text="Take Picture" />
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="301dp"
-            android:layout_height="401dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_launcher" />
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/take_pic" />
+
+                <ImageView
+                    android:id="@+id/img2"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/take_pic" />
+
+                <ImageView
+                    android:id="@+id/img3"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/take_pic" />
+
+                <ImageView
+                    android:id="@+id/img4"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/take_pic" />
+
+                <ImageView
+                    android:id="@+id/img5"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/take_pic" />
+            </LinearLayout>
+        </HorizontalScrollView>
 
         <Button
             android:id="@+id/bLocation"
@@ -252,7 +325,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Get Current Location" />
-        
+
         <Button
             android:id="@+id/bMenu"
             style="?android:attr/buttonStyleSmall"
@@ -260,7 +333,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Enter Menu" />
-        
+
         <Button
             android:id="@+id/bIngredients"
             style="?android:attr/buttonStyleSmall"

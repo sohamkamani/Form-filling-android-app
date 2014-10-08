@@ -92,7 +92,7 @@ public class IngredientEntry extends Activity implements OnClickListener {
 
 		EditText et2 = new EditText(this);
 		et2.setLayoutParams(param2);
-		et2.setInputType(InputType.TYPE_CLASS_NUMBER);
+		et2.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		et2.setEms(10);
 		ll.addView(et2);
 

@@ -1,13 +1,18 @@
 package com.sohamkamani.street_food;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.R.color;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,19 +26,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.gson.Gson;
+
 public class MainActivity extends Activity implements OnClickListener {
 
 	Button bSubmit, bPhoto, bMenu, bIngr, bLoc;
+	Gson gson = new Gson();
+
 	EditText etName;
 	public static FoodMenuItem[] foodMenu;
 	GPSTracker gps;
@@ -44,7 +50,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	int imageCounter = 0;
 	NumberPicker clHr, clMin, clampm, opHr, opMin, opampm;
 	ToggleButton homeDel;
-	TextView homeDelMinAmttxt;
+	TextView homeDelMinAmttxt, tbStatus;
 	EditText homeDelMinAmt;
 
 	@Override
@@ -59,6 +65,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		homeDel = (ToggleButton) findViewById(R.id.homeDelivery);
 		homeDelMinAmt = (EditText) findViewById(R.id.minDelAmt);
 		homeDelMinAmttxt = (TextView) findViewById(R.id.minDelAmttxt);
+		tbStatus = (TextView) findViewById(R.id.tbStatus);
 
 		clHr = (NumberPicker) findViewById(R.id.timeCloseHr);
 		clMin = (NumberPicker) findViewById(R.id.timeCloseMin);
@@ -98,6 +105,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		bLoc.setOnClickListener(this);
 		homeDel.setOnClickListener(this);
 
+		homeDelMinAmttxt.setTextColor(Color.GRAY);
+		homeDelMinAmt.setEnabled(false);
+
 	}
 
 	@Override
@@ -124,8 +134,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.bSubmit:
-
+			tbStatus.setText("Submitting...");
+			new UploadingData(this,tbStatus).execute("AAnd","roid");
 			break;
+
 		case R.id.bMenu:
 			Intent intentMenu = new Intent(this, MenuEntry.class);
 			startActivityForResult(intentMenu, 0);
@@ -144,10 +156,14 @@ public class MainActivity extends Activity implements OnClickListener {
 			getLocation();
 			gps = new GPSTracker(MainActivity.this);
 			break;
-			
+
 		case R.id.homeDelivery:
-			if(homeDel.isChecked()){
-				homeDelMinAmttxt.setTextColor(Color.GREEN);
+			if (homeDel.isChecked()) {
+				homeDelMinAmttxt.setTextColor(Color.BLACK);
+				homeDelMinAmt.setEnabled(true);
+			} else {
+				homeDelMinAmttxt.setTextColor(Color.GRAY);
+				homeDelMinAmt.setEnabled(false);
 			}
 			break;
 

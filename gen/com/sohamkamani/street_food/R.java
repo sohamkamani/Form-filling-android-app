@@ -26,14 +26,14 @@ public final class R {
         public static final int take_pic=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f080040;
+        public static final int action_settings=0x7f080041;
         public static final int bAddItem=0x7f08000d;
         public static final int bIngredients=0x7f08003e;
         public static final int bLocation=0x7f08003c;
         public static final int bMenu=0x7f08003d;
         public static final int bMenuSubmit=0x7f08000e;
         public static final int bPic=0x7f080036;
-        public static final int bSubmit=0x7f08003f;
+        public static final int bSubmit=0x7f080040;
         public static final int checkBox1=0x7f080017;
         public static final int checkBox2=0x7f080018;
         public static final int cuiChaat=0x7f08001e;
@@ -72,6 +72,7 @@ public final class R {
         public static final int tbPhone=0x7f080011;
         public static final int tbPhoneeee=0x7f080010;
         public static final int tbPrice=0x7f080033;
+        public static final int tbStatus=0x7f08003f;
         public static final int textView1=0x7f080000;
         public static final int textView10=0x7f08002a;
         public static final int textView11=0x7f080032;

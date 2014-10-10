@@ -137,8 +137,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		case R.id.bSubmit:
 			tbStatus.setText("Submitting...");
 			//new UploadingData(this,tbStatus).execute("AAnd","roid");
-			Intent intentImgUpload = new Intent(this, ImageUploader.class);
-			startActivity(intentImgUpload);
+			ImageUploader imgup = new ImageUploader(tbStatus);
+			imgup.upload_image(foodPhoto);
 			break;
 
 		case R.id.bMenu:

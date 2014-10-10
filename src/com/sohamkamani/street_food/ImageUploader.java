@@ -21,24 +21,20 @@ import android.util.Base64;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ImageUploader extends Activity {
+public class ImageUploader  {
 	InputStream inputStream;
 	TextView status;
+	
+	public ImageUploader(TextView status){
+		this.status = status;
+	}
 
-	@Override
-	public void onCreate(Bundle icicle) {
-		super.onCreate(icicle);
-		setContentView(R.layout.image_uploading);
+	public void upload_image(Bitmap bitmap) {
+		
 
-		status = (TextView) findViewById(R.id.imgStat);
-
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-				R.drawable.land);
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream); // compress to
-																	// which
-																	// format
-																	// you want.
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); // compress to
+																	// format													// you want.
 		byte[] byte_arr = stream.toByteArray();
 		// String image_str = Base64custom.encodeBytes(byte_arr);
 		String image_str = Base64custom.encodeBytes(byte_arr);
@@ -58,33 +54,16 @@ public class ImageUploader extends Activity {
 					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 					HttpResponse response = httpclient.execute(httppost);
 					final String the_string_response = convertResponseToString(response);
-					runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							Toast.makeText(ImageUploader.this,
-									"Response " + the_string_response,
-									Toast.LENGTH_LONG).show();
-						}
-					});
+					status.setText(the_string_response);
 
 				} catch (final Exception e) {
-					runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							Toast.makeText(ImageUploader.this,
-									"ERROR " + e.getMessage(),
-									Toast.LENGTH_LONG).show();
-						}
-					});
+					
 					System.out.println("Error in http connection "
 							+ e.toString());
 				}
 			}
 		});
 		t.start();
-
 	}
 
 	public String convertResponseToString(HttpResponse response)
@@ -96,15 +75,7 @@ public class ImageUploader extends Activity {
 		final int contentLength = (int) response.getEntity().getContentLength(); // getting
 																					// content
 																					// length…..
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				Toast.makeText(ImageUploader.this,
-						"contentLength : " + contentLength, Toast.LENGTH_LONG)
-						.show();
-			}
-		});
+		
 
 		if (contentLength < 0) {
 		} else {
@@ -126,15 +97,15 @@ public class ImageUploader extends Activity {
 				e.printStackTrace();
 			}
 			res = buffer.toString(); // converting stringbuffer to string…..
-
-			runOnUiThread(new Runnable() {
-
-				@Override
-				public void run() {
-					Toast.makeText(ImageUploader.this, "Result : ",
-							Toast.LENGTH_LONG).show();
-				}
-			});
+			status.setText(res);
+//			runOnUiThread(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					Toast.makeText(ImageUploader.this, "Result : ",
+//							Toast.LENGTH_LONG).show();
+//				}
+//			});
 			// System.out.println("Response => " +
 			// EntityUtils.toString(response.getEntity()));
 		}

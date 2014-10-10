@@ -45,13 +45,14 @@ public class MainActivity extends Activity implements OnClickListener {
 	GPSTracker gps;
 	double lat, lng;
 	ImageView[] imgViews;
-	String mCurrentPhotoPath;
+	String mCurrentPhotoPath, imgFilePath ;
 	Uri capturedImageUri;
 	int imageCounter = 0;
 	NumberPicker clHr, clMin, clampm, opHr, opMin, opampm;
 	ToggleButton homeDel;
 	TextView homeDelMinAmttxt, tbStatus;
 	EditText homeDelMinAmt;
+	Bitmap foodPhoto;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +136,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.bSubmit:
 			tbStatus.setText("Submitting...");
-			new UploadingData(this,tbStatus).execute("AAnd","roid");
+			//new UploadingData(this,tbStatus).execute("AAnd","roid");
+			Intent intentImgUpload = new Intent(this, ImageUploader.class);
+			startActivity(intentImgUpload);
 			break;
 
 		case R.id.bMenu:
@@ -210,7 +213,12 @@ public class MainActivity extends Activity implements OnClickListener {
 				Bitmap bitmap = MediaStore.Images.Media.getBitmap(
 						getApplicationContext().getContentResolver(),
 						capturedImageUri);
+				//tbStatus.setText(capturedImageUri.toString());
 				bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
+				foodPhoto = bitmap;
+//				ImgGiver ig = new ImgGiver();
+//				String imgstr = ig.ImgtoString(bitmap);
+//				tbStatus.setText(imgstr);
 				imgViews[imageCounter % 5].setImageBitmap(bitmap);
 				imageCounter++;
 			} catch (FileNotFoundException e) {
@@ -269,6 +277,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		}
 		capturedImageUri = Uri.fromFile(file);
+		imgFilePath = file.getAbsolutePath();
 		Intent i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 		i.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
 		startActivityForResult(i, 2);

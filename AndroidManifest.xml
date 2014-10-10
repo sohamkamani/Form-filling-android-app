@@ -32,6 +32,10 @@
             android:name=".IngredientEntry"
             android:label="@string/title_activity_ingredient_entry" >
         </activity>
+        <activity
+            android:name=".ImageUploader"
+            android:label="ImageUploader" >
+        </activity>
     </application>
     
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />	

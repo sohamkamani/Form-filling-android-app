@@ -1,14 +1,9 @@
 package com.sohamkamani.street_food;
 
-import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,14 +40,15 @@ public class MainActivity extends Activity implements OnClickListener {
 	GPSTracker gps;
 	double lat, lng;
 	ImageView[] imgViews;
-	String mCurrentPhotoPath, imgFilePath ;
+	String mCurrentPhotoPath, imgFilePath;
 	Uri capturedImageUri;
 	int imageCounter = 0;
 	NumberPicker clHr, clMin, clampm, opHr, opMin, opampm;
 	ToggleButton homeDel;
 	TextView homeDelMinAmttxt, tbStatus;
 	EditText homeDelMinAmt;
-	Bitmap foodPhoto;
+	Bitmap[] foodPhoto = new Bitmap[5];
+	String[] imageStrings = new String[5];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,13 +132,19 @@ public class MainActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.bSubmit:
 			tbStatus.setText("Submitting...");
-			//new UploadingData(this,tbStatus).execute("AAnd","roid");
-			ImageUploader imgup = new ImageUploader(tbStatus);
-			imgup.upload_image(foodPhoto);
+			// new UploadingData(this,tbStatus).execute("AAnd","roid");
+			ImageUploader imgup = new ImageUploader(tbStatus,bSubmit);
+//			for (int i = 0; (i < 5 && foodPhoto[i] != null); i++) {
+//				imgup.upload_image(foodPhoto[i], etName.getText().toString(), i);
+//			}
+			for (int i = 0; (i < 5 && imageStrings[i] != null); i++) {
+				imgup.upload_image(imageStrings[i], etName.getText().toString(), i);
+			}
 			break;
 
 		case R.id.bMenu:
 			Intent intentMenu = new Intent(this, MenuEntry.class);
+			Bundle b = new Bundle();
 			startActivityForResult(intentMenu, 0);
 			break;
 
@@ -213,12 +215,14 @@ public class MainActivity extends Activity implements OnClickListener {
 				Bitmap bitmap = MediaStore.Images.Media.getBitmap(
 						getApplicationContext().getContentResolver(),
 						capturedImageUri);
-				//tbStatus.setText(capturedImageUri.toString());
-				bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
-				foodPhoto = bitmap;
-//				ImgGiver ig = new ImgGiver();
-//				String imgstr = ig.ImgtoString(bitmap);
-//				tbStatus.setText(imgstr);
+				if (bitmap.getWidth() < bitmap.getHeight()) {
+					bitmap = Bitmap.createScaledBitmap(bitmap, 720, 1280, true);
+				} else {
+					bitmap = Bitmap.createScaledBitmap(bitmap, 1280, 720, true);
+				}
+
+				//foodPhoto[imageCounter % 5] = bitmap;
+				imageStrings[imageCounter % 5] = imageToString(bitmap);
 				imgViews[imageCounter % 5].setImageBitmap(bitmap);
 				imageCounter++;
 			} catch (FileNotFoundException e) {
@@ -239,22 +243,22 @@ public class MainActivity extends Activity implements OnClickListener {
 	 * startActivityForResult(takePicture, 2); }
 	 */
 
-	private File createImageFile() throws IOException {
-		// Create an image file name
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-				.format(new Date());
-		String imageFileName = "JPEG_" + timeStamp + "_";
-		File storageDir = Environment
-				.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-		File image = File.createTempFile(imageFileName, /* prefix */
-				".jpg", /* suffix */
-				storageDir /* directory */
-		);
-
-		// Save a file: path for use with ACTION_VIEW intents
-		mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-		return image;
-	}
+//	private File createImageFile() throws IOException {
+//		// Create an image file name
+//		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+//				.format(new Date());
+//		String imageFileName = "JPEG_" + timeStamp + "_";
+//		File storageDir = Environment
+//				.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//		File image = File.createTempFile(imageFileName, /* prefix */
+//				".jpg", /* suffix */
+//				storageDir /* directory */
+//		);
+//
+//		// Save a file: path for use with ACTION_VIEW intents
+//		mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+//		return image;
+//	}
 
 	private void dispatchTakePictureIntent() {
 		Calendar cal = Calendar.getInstance();
@@ -277,11 +281,23 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		}
 		capturedImageUri = Uri.fromFile(file);
-		imgFilePath = file.getAbsolutePath();
+//		imgFilePath = file.getAbsolutePath();
 		Intent i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 		i.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
 		startActivityForResult(i, 2);
 
+	}
+	
+	public String imageToString(Bitmap bitmap){
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream); // compress to
+																	// format //
+																	// you want.
+		byte[] byte_arr = stream.toByteArray();
+		// String image_str = Base64custom.encodeBytes(byte_arr);
+		String image_str = Base64custom.encodeBytes(byte_arr);
+		
+		return image_str;
 	}
 
 }

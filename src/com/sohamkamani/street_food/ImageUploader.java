@@ -15,51 +15,73 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.util.Base64;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class ImageUploader  {
+public class ImageUploader extends Activity {
 	InputStream inputStream;
 	TextView status;
-	
-	public ImageUploader(TextView status){
+	Button submitButton;
+
+	public ImageUploader(TextView status, Button submitButton) {
 		this.status = status;
+		this.submitButton = submitButton;
 	}
 
-	public void upload_image(Bitmap bitmap) {
-		
+	public void upload_image(String image_str, String img_name, final int index) {
 
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); // compress to
-																	// format													// you want.
-		byte[] byte_arr = stream.toByteArray();
-		// String image_str = Base64custom.encodeBytes(byte_arr);
-		String image_str = Base64custom.encodeBytes(byte_arr);
+//		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//		bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream); // compress to
+//																	// format //
+//																	// you want.
+//		byte[] byte_arr = stream.toByteArray();
+//		// String image_str = Base64custom.encodeBytes(byte_arr);
+//		String image_str = Base64custom.encodeBytes(byte_arr);
 		final ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
 		nameValuePairs.add(new BasicNameValuePair("image", image_str));
+		nameValuePairs.add(new BasicNameValuePair("image_name",
+				(img_name + index)));
 
 		Thread t = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				try {
-					status.setText("uploading");
+					runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							status.setText("uploading image " + (index + 1));
+							submitButton.setClickable(false);
+						}
+					});
+
 					HttpClient httpclient = new DefaultHttpClient();
 					HttpPost httppost = new HttpPost(
 							"http://sohamkamani.host22.com/upload_photo.php");
 					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 					HttpResponse response = httpclient.execute(httppost);
-					final String the_string_response = convertResponseToString(response);
-					status.setText(the_string_response);
+					// final String the_string_response =
+					// convertResponseToString(response);
+					// status.setText(the_string_response);
 
 				} catch (final Exception e) {
-					
+					submitButton.setClickable(true);
 					System.out.println("Error in http connection "
 							+ e.toString());
+				} finally {
+					runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							status.setText("photo " + (index + 1) + " done");
+							submitButton.setClickable(true);
+						}
+					});
+
 				}
 			}
 		});
@@ -75,7 +97,6 @@ public class ImageUploader  {
 		final int contentLength = (int) response.getEntity().getContentLength(); // getting
 																					// content
 																					// length…..
-		
 
 		if (contentLength < 0) {
 		} else {
@@ -97,15 +118,15 @@ public class ImageUploader  {
 				e.printStackTrace();
 			}
 			res = buffer.toString(); // converting stringbuffer to string…..
-			status.setText(res);
-//			runOnUiThread(new Runnable() {
-//
-//				@Override
-//				public void run() {
-//					Toast.makeText(ImageUploader.this, "Result : ",
-//							Toast.LENGTH_LONG).show();
-//				}
-//			});
+			// status.setText(res);
+			// runOnUiThread(new Runnable() {
+			//
+			// @Override
+			// public void run() {
+			// Toast.makeText(ImageUploader.this, "Result : ",
+			// Toast.LENGTH_LONG).show();
+			// }
+			// });
 			// System.out.println("Response => " +
 			// EntityUtils.toString(response.getEntity()));
 		}

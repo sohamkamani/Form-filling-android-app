@@ -33,7 +33,7 @@
             android:label="@string/title_activity_ingredient_entry" >
         </activity>
         <activity
-            android:name=".ImageUploader"
+            android:name=".Uploader"
             android:label="ImageUploader" >
         </activity>
     </application>

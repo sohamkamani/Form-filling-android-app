@@ -1,5 +1,9 @@
 package com.sohamkamani.street_food;
 
+import java.util.ArrayList;
+
+import com.google.gson.Gson;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +19,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 public class IngredientEntry extends Activity implements OnClickListener {
+	
+	int viewCount;
+	EditText fName,fPrice;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +31,7 @@ public class IngredientEntry extends Activity implements OnClickListener {
 		bSubmit.setOnClickListener(this);
 		Button bAddMore = (Button) findViewById(R.id.bAddItem);
 		bAddMore.setOnClickListener(this);
+		viewCount=50;
 	}
 
 	@Override
@@ -50,13 +58,8 @@ public class IngredientEntry extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.bMenuSubmit:
-			String[] fm = new String[2];
-			fm[0] = "tre,6";
-			fm[1] = "rer,67";
 			Intent i = new Intent();
-			Bundle menuResult = new Bundle();
-			menuResult.putStringArray("foodmenu", fm);
-			i.putExtras(menuResult);
+			i.putExtra("ingredients", getIngrString());
 			setResult(RESULT_OK, i);
 			finish();
 			break;
@@ -88,16 +91,77 @@ public class IngredientEntry extends Activity implements OnClickListener {
 		EditText et1 = new EditText(this);
 		et1.setLayoutParams(param2);
 		et1.setEms(10);
+		et1.setId(viewCount);
+		viewCount++;
 		ll.addView(et1);
 
 		EditText et2 = new EditText(this);
 		et2.setLayoutParams(param2);
 		et2.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		et2.setEms(10);
+		et2.setId(viewCount);
+		viewCount++;
 		ll.addView(et2);
 
 		// Add the LinearLayout element to the ScrollView
 		mainLl.addView(ll);
 
+	}
+	
+	public String getIngrString() {
+		String name;
+		float price;
+		ArrayList<IngrItem> fmi = new ArrayList<IngrItem>();
+		fName = (EditText) findViewById(R.id.ingr1);
+		fPrice = (EditText) findViewById(R.id.quan1);
+		if (fName.getText().length() > 0 && fPrice.getText().length() > 0) {
+			name = fName.getText().toString();
+			price = Float.parseFloat(fPrice.getText().toString());
+			fmi.add(new IngrItem(name, price));
+		}
+		fName = (EditText) findViewById(R.id.ingr2);
+		fPrice = (EditText) findViewById(R.id.quan2);
+		if (fName.getText().length() > 0 && fPrice.getText().length() > 0) {
+			name = fName.getText().toString();
+			price = Float.parseFloat(fPrice.getText().toString());
+			fmi.add(new IngrItem(name, price));
+		}
+		fName = (EditText) findViewById(R.id.ingr3);
+		fPrice = (EditText) findViewById(R.id.quan3);
+		if (fName.getText().length() > 0 && fPrice.getText().length() > 0) {
+			name = fName.getText().toString();
+			price = Float.parseFloat(fPrice.getText().toString());
+			fmi.add(new IngrItem(name, price));
+		}
+		fName = (EditText) findViewById(R.id.ingr4);
+		fPrice = (EditText) findViewById(R.id.quan4);
+		if (fName.getText().length() > 0 && fPrice.getText().length() > 0) {
+			name = fName.getText().toString();
+			price = Float.parseFloat(fPrice.getText().toString());
+			fmi.add(new IngrItem(name, price));
+		}
+		fName = (EditText) findViewById(R.id.ingr5);
+		fPrice = (EditText) findViewById(R.id.quan5);
+		if (fName.getText().length() > 0 && fPrice.getText().length() > 0) {
+			name = fName.getText().toString();
+			price = Float.parseFloat(fPrice.getText().toString());
+			fmi.add(new IngrItem(name, price));
+		}
+		if (viewCount > 50) {
+			int tempCount = 50;
+			while (tempCount < viewCount) {
+				fName = (EditText) findViewById(tempCount);
+				tempCount++;
+				fPrice = (EditText) findViewById(tempCount);
+				tempCount++;
+				if (fName.getText().length() > 0 && fPrice.getText().length() > 0) {
+					name = fName.getText().toString();
+					price = Float.parseFloat(fPrice.getText().toString());
+					fmi.add(new IngrItem(name, price));
+				}
+			}
+		}
+		Gson gson = new Gson();
+		return gson.toJson(fmi);
 	}
 }

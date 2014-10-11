@@ -72,13 +72,13 @@
             android:text="Type of Food" />
 
         <CheckBox
-            android:id="@+id/checkBox1"
+            android:id="@+id/checkBoxveg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Veg" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/checkBoxnonveg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Non Veg" />
@@ -90,7 +90,7 @@
             android:text="Cuisine" />
 
         <RadioGroup
-            android:id="@+id/radioGroup2"
+            android:id="@+id/radioGroupCui"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 

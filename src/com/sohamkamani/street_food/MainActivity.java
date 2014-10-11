@@ -4,9 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+
+import org.apache.http.entity.mime.MinimalField;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,9 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -35,18 +39,18 @@ public class MainActivity extends Activity implements OnClickListener {
 	Button bSubmit, bPhoto, bMenu, bIngr, bLoc;
 	Gson gson = new Gson();
 
-	EditText etName;
+	EditText etName, etPhone, etAddr, etLandmark, etOthercui, homeDelMinAmt,
+			avgPrice, sigDish;
 	public static FoodMenuItem[] foodMenu;
 	GPSTracker gps;
 	double lat, lng;
 	ImageView[] imgViews;
-	String mCurrentPhotoPath, imgFilePath;
+	String mCurrentPhotoPath, imgFilePath,ingrResult,menuResult;
 	Uri capturedImageUri;
 	int imageCounter = 0;
 	NumberPicker clHr, clMin, clampm, opHr, opMin, opampm;
 	ToggleButton homeDel;
 	TextView homeDelMinAmttxt, tbStatus;
-	EditText homeDelMinAmt;
 	Bitmap[] foodPhoto = new Bitmap[5];
 	String[] imageStrings = new String[5];
 
@@ -104,6 +108,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		homeDelMinAmttxt.setTextColor(Color.GRAY);
 		homeDelMinAmt.setEnabled(false);
+		
+		lat=0;
+		lng=0;
+		
+		ingrResult = "N/a";
+		menuResult = "N/a";
 
 	}
 
@@ -126,25 +136,156 @@ public class MainActivity extends Activity implements OnClickListener {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private String[] make_data() {
+		String[] data = new String[18];
+		for(int i = 0 ; i < 18 ; i++){
+			data[i] = "N/A";
+		}
+		EditText et;
+		
+		//1
+		et=(EditText) findViewById(R.id.tbName);
+		if(et.getText().length()>0){
+			data[0] = et.getText().toString();
+		}
+		
+		//2
+		et=(EditText) findViewById(R.id.tbPhone);
+		if(et.getText().length()>0){
+			data[1] = et.getText().toString();
+		}
+		
+		//3
+		et=(EditText) findViewById(R.id.tbAddress);
+		if(et.getText().length()>0){
+			data[2] = et.getText().toString();
+		}
+		
+		//4
+		et=(EditText) findViewById(R.id.tbLandmark);
+		if(et.getText().length()>0){
+			data[3] = et.getText().toString();
+		}
+		
+		//5
+		CheckBox veg,nonveg;
+		veg = (CheckBox) findViewById(R.id.checkBoxveg);
+		nonveg = (CheckBox) findViewById(R.id.checkBoxnonveg);
+		if(veg.isChecked()){
+			if(nonveg.isChecked()){
+				data[4] = "V & NV";
+			}else{
+				data[4] = "V";
+			}
+		}else if(nonveg.isChecked()){
+			data[4]="NV";
+		}
+		
+		//6
+		RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroupCui);
+		int rb_id =rg.getCheckedRadioButtonId();
+		RadioButton rb = (RadioButton) findViewById(rb_id);
+		if(rb.getText().toString() == "Other:"){
+			EditText cui_et = (EditText) findViewById(R.id.tbOther);
+			data[5] = cui_et.getText().toString();
+		}else{
+			data[5] = rb.getText().toString();
+		}
+		
+		//7 and 8
+		float rating;
+		RatingBar rb_clean = (RatingBar) findViewById(R.id.rCleanliness);
+		rating = rb_clean.getRating();
+		data[6] = Float.toString(rating);
+		RatingBar rb_qual = (RatingBar) findViewById(R.id.rFood);
+		rating = rb_qual.getRating();
+		data[7] = Float.toString(rating);
+		
+		//9 and 10
+		if(homeDel.isChecked()){
+			data[8]="yes";
+			data[9] = homeDelMinAmt.getText().toString();
+		}else{
+			data[8] = "no";
+		}
+		
+		//11 and 12
+		data[10] = construct_time(opHr.getValue(), opMin.getValue(), opampm.getValue());
+		data[11] = construct_time(clHr.getValue(), clMin.getValue(), clampm.getValue());
+		
+		//13
+		et=(EditText) findViewById(R.id.tbPrice);
+		if(et.getText().length()>0){
+			data[12] = et.getText().toString();
+		}
+		
+		//14
+		et=(EditText) findViewById(R.id.tbDish);
+		if(et.getText().length()>0){
+			data[13] = et.getText().toString();
+		}
+		
+		//15 and 16
+		data[14] = Double.toString(lat);
+		data[15] = Double.toString(lng);
+		
+		//17 and 18
+		data[16] = menuResult;
+		data[17] = ingrResult;
+		
+		return data;
+	}
+	
+	private String construct_time(int hr, int min, int ampm){
+		String time = Integer.toString(hr) + ":";
+		if(min==0){
+			time+="00";
+		}else{
+			time+="30";
+		}
+		if(ampm==0)
+			time+=" am";
+		else
+			time+=" pm";
+		return time;
+	}
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.bSubmit:
-			tbStatus.setText("Submitting...");
-			// new UploadingData(this,tbStatus).execute("AAnd","roid");
-			ImageUploader imgup = new ImageUploader(tbStatus,bSubmit);
-//			for (int i = 0; (i < 5 && foodPhoto[i] != null); i++) {
-//				imgup.upload_image(foodPhoto[i], etName.getText().toString(), i);
-//			}
-			for (int i = 0; (i < 5 && imageStrings[i] != null); i++) {
-				imgup.upload_image(imageStrings[i], etName.getText().toString(), i);
+//			tbStatus.setText("Submitting...");
+//			// new UploadingData(this,tbStatus).execute("AAnd","roid");
+//			final Uploader uploader = new Uploader(tbStatus, bSubmit);
+//			// for (int i = 0; (i < 5 && foodPhoto[i] != null); i++) {
+//			// imgup.upload_image(foodPhoto[i], etName.getText().toString(), i);
+//			// }
+//			Thread t = new Thread(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					// TODO Auto-generated method stub
+//					for (int i = 0; (i < 5 && imageStrings[i] != null); i++) {
+//						uploader.upload_image(imageStrings[i], etName.getText()
+//								.toString(), i);
+//					}
+//					String[] data = make_data();
+//					uploader.upload_data(data);
+//				}
+//			});
+//			t.start();
+			String[] total_data = make_data();
+			String tot_data=" ";
+			for(int i=0 ; i<18; i++){
+				tot_data = tot_data + total_data[i] + " # ";
 			}
+			tbStatus.setText(tot_data);
+
 			break;
 
 		case R.id.bMenu:
 			Intent intentMenu = new Intent(this, MenuEntry.class);
-			Bundle b = new Bundle();
 			startActivityForResult(intentMenu, 0);
 			break;
 
@@ -198,17 +339,18 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 0) {
-			if (resultCode == RESULT_OK) {
-				Bundle fMenu = data.getExtras();
-				String[] fm = fMenu.getStringArray("foodmenu");
-				// etName.setText(fm[0]);
+		if (requestCode == 0 && resultCode == RESULT_OK) {
 
-			}
-			if (resultCode == RESULT_CANCELED) {
-				// Write your code if there's no result
-			}
+			menuResult = data.getStringExtra("menuString");
+
 		}
+		
+		if (requestCode == 1 && resultCode == RESULT_OK) {
+
+			ingrResult = data.getStringExtra("ingredients");
+
+		}
+
 		if (requestCode == 2 && resultCode == RESULT_OK) {
 			// what to do with image
 			try {
@@ -221,7 +363,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					bitmap = Bitmap.createScaledBitmap(bitmap, 1280, 720, true);
 				}
 
-				//foodPhoto[imageCounter % 5] = bitmap;
+				// foodPhoto[imageCounter % 5] = bitmap;
 				imageStrings[imageCounter % 5] = imageToString(bitmap);
 				imgViews[imageCounter % 5].setImageBitmap(bitmap);
 				imageCounter++;
@@ -234,6 +376,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		}
 	}
+	
 
 	// EVERYTHING PHOTO RELATED DOWN HERE
 
@@ -243,22 +386,22 @@ public class MainActivity extends Activity implements OnClickListener {
 	 * startActivityForResult(takePicture, 2); }
 	 */
 
-//	private File createImageFile() throws IOException {
-//		// Create an image file name
-//		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-//				.format(new Date());
-//		String imageFileName = "JPEG_" + timeStamp + "_";
-//		File storageDir = Environment
-//				.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//		File image = File.createTempFile(imageFileName, /* prefix */
-//				".jpg", /* suffix */
-//				storageDir /* directory */
-//		);
-//
-//		// Save a file: path for use with ACTION_VIEW intents
-//		mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-//		return image;
-//	}
+	// private File createImageFile() throws IOException {
+	// // Create an image file name
+	// String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+	// .format(new Date());
+	// String imageFileName = "JPEG_" + timeStamp + "_";
+	// File storageDir = Environment
+	// .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+	// File image = File.createTempFile(imageFileName, /* prefix */
+	// ".jpg", /* suffix */
+	// storageDir /* directory */
+	// );
+	//
+	// // Save a file: path for use with ACTION_VIEW intents
+	// mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+	// return image;
+	// }
 
 	private void dispatchTakePictureIntent() {
 		Calendar cal = Calendar.getInstance();
@@ -281,14 +424,14 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		}
 		capturedImageUri = Uri.fromFile(file);
-//		imgFilePath = file.getAbsolutePath();
+		// imgFilePath = file.getAbsolutePath();
 		Intent i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 		i.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
 		startActivityForResult(i, 2);
 
 	}
-	
-	public String imageToString(Bitmap bitmap){
+
+	public String imageToString(Bitmap bitmap) {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream); // compress to
 																	// format //
@@ -296,7 +439,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		byte[] byte_arr = stream.toByteArray();
 		// String image_str = Base64custom.encodeBytes(byte_arr);
 		String image_str = Base64custom.encodeBytes(byte_arr);
-		
+
 		return image_str;
 	}
 

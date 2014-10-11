@@ -44,14 +44,14 @@
                 android:orientation="horizontal" >
 
                 <EditText
-                    android:id="@+id/name1"
+                    android:id="@+id/ingr1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10" />
 
                 <EditText
-                    android:id="@+id/price1"
+                    android:id="@+id/quan1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -66,14 +66,14 @@
                 android:orientation="horizontal" >
 
                 <EditText
-                    android:id="@+id/rreerrtt"
+                    android:id="@+id/ingr2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10" />
 
                 <EditText
-                    android:id="@+id/price2"
+                    android:id="@+id/quan2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -88,14 +88,14 @@
                 android:orientation="horizontal" >
 
                 <EditText
-                    android:id="@+id/name3"
+                    android:id="@+id/ingr3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10" />
 
                 <EditText
-                    android:id="@+id/price3"
+                    android:id="@+id/quan3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -110,14 +110,14 @@
                 android:orientation="horizontal" >
 
                 <EditText
-                    android:id="@+id/name4"
+                    android:id="@+id/ingr4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10" />
 
                 <EditText
-                    android:id="@+id/price4"
+                    android:id="@+id/quan4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -132,14 +132,14 @@
                 android:orientation="horizontal" >
 
                 <EditText
-                    android:id="@+id/name5"
+                    android:id="@+id/ingr5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10" />
 
                 <EditText
-                    android:id="@+id/price5"
+                    android:id="@+id/quan5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

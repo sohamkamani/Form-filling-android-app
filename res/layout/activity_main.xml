@@ -2,10 +2,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="#F2DB80"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical" >
 
@@ -69,73 +69,51 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Type of Food" />
+            android:text="CheckBoxes" />
 
         <CheckBox
-            android:id="@+id/checkBoxveg"
+            android:id="@+id/checkBox1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Veg" />
+            android:text="opt1" />
 
         <CheckBox
-            android:id="@+id/checkBoxnonveg"
+            android:id="@+id/checkBox2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Non Veg" />
+            android:text="opt2" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cuisine" />
+            android:text="radiogroup" />
 
         <RadioGroup
-            android:id="@+id/radioGroupCui"
+            android:id="@+id/radioGroup1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <RadioButton
-                android:id="@+id/cuiChin"
+                android:id="@+id/r1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Chinese" />
+                android:text="r1" />
 
             <RadioButton
-                android:id="@+id/cuiNor"
+                android:id="@+id/r2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="North Indian" />
+                android:text="r2" />
 
             <RadioButton
-                android:id="@+id/cuiSou"
+                android:id="@+id/r3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="South Indian" />
+                android:text="r3" />
 
-            <RadioButton
-                android:id="@+id/cuiChaat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chaat" />
-
-            <RadioButton
-                android:id="@+id/cuiLoc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Local" />
-
-            <RadioButton
-                android:id="@+id/cuiOther"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Other:" />
         </RadioGroup>
-
-        <EditText
-            android:id="@+id/tbOther"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/textView7"
@@ -152,10 +130,10 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Food taste and quality" />
+            android:text="quality" />
 
         <RatingBar
-            android:id="@+id/rFood"
+            android:id="@+id/rQual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -163,10 +141,10 @@
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home Delivery" />
+            android:text="toggle" />
 
         <ToggleButton
-            android:id="@+id/homeDelivery"
+            android:id="@+id/toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textOff="No"
@@ -177,14 +155,14 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/minDelAmttxt"
+                android:id="@+id/toggleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Minimum Delivery Amt:"
+                android:text="toggle text"
                 android:textColor="#AAAAAA" />
 
             <EditText
-                android:id="@+id/minDelAmt"
+                android:id="@+id/toggleTextEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
@@ -242,30 +220,7 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Average Price" />
-
-        <EditText
-            android:id="@+id/tbPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number" />
-
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Signature Dish" />
-
-        <EditText
-            android:id="@+id/tbDish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10" />
+       
 
         <Button
             android:id="@+id/bPic"
@@ -284,35 +239,90 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <ImageView
-                    android:id="@+id/img1"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/take_pic" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-                <ImageView
-                    android:id="@+id/img2"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/take_pic" />
+                    <ImageView
+                        android:id="@+id/img1"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/take_pic" />
 
-                <ImageView
-                    android:id="@+id/img3"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/take_pic" />
+                    <EditText
+                        android:id="@+id/img1txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-                <ImageView
-                    android:id="@+id/img4"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/take_pic" />
+                </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/img5"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/take_pic" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:id="@+id/img2"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/take_pic" />
+
+                    <EditText
+                        android:id="@+id/img2txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout><LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:id="@+id/img3"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/take_pic" />
+
+                    <EditText
+                        android:id="@+id/img3txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout><LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:id="@+id/img4"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/take_pic" />
+
+                    <EditText
+                        android:id="@+id/img4txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout><LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:id="@+id/img5"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/take_pic" />
+
+                    <EditText
+                        android:id="@+id/img5txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -325,26 +335,26 @@
             android:text="Get Current Location" />
 
         <Button
-            android:id="@+id/bMenu"
+            android:id="@+id/bComp1"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Enter Menu" />
+            android:text="compound entry 1" />
 
         <Button
-            android:id="@+id/bIngredients"
+            android:id="@+id/bComp2"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Enter Ingredients" />
+            android:text="compoundEntry2" />
 
         <TextView
             android:id="@+id/tbStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text=" " />
 
         <Button
             android:id="@+id/bSubmit"
@@ -352,6 +362,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Submit" />
+
+        <Button
+            android:id="@+id/bTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Test" />
     </LinearLayout>
 
 </ScrollView>

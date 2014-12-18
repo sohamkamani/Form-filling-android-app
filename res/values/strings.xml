@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_menu_entry">MenuEntry</string>
     <string name="title_activity_ingredient_entry">IngredientEntry</string>
+    <string name="title_activity_login_page">LoginPage</string>
 
 </resources>
